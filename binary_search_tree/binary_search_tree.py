@@ -1,3 +1,6 @@
+from queue import Queue
+from stack import Stack
+
 """
 Binary search trees are a data structure that enforce an ordering over 
 the data they store. That ordering in turn makes it a lot more efficient 
@@ -79,20 +82,63 @@ class BSTNode:
 
 #     # Part 2 -----------------------
 
+# A search is completed when the target of the search is found. A traversal is completed when every node has been explored.
+
+# A Depth First Traversal (DFT) is one that continues traveling forward on each branch until a dead end is reached. The search then retreats to the first unexplored branch and follows the next unexplored path until that one too reaches a dead end. This continues until all nodes have been visited. Think of it like being in a maze and always turning right at each intersection. We can do a DFT recursively or iteratively. The iterative approach makes use of stack.
+
+# A Breadth First Traversal (BFT) takes the opposite strategy. We explore layer by layer, slowly moving outward from the starting point. At each node, we add every node we discover to the list of nodes to explore, then explore them in the order in which we encounter them. For this, we use a queue. This means we’ll jump around a bit - the next node we visit might not be directly connected to the one we are on.
+
 #     # Print all the values in order from low to high
 #     # Hint:  Use a recursive, depth first traversal
-#     def in_order_print(self):
-#         pass
+    def in_order_print(self):
+        if self.left:
+            self.left.in_order_print()
+        print(self.value)
+        if self.right:
+            self.right.in_order_print()
+
+# create queue
+# add root to queue
+# while queue is not empty
+    # node = head of queue
+    # add children of node to queue
+    # pop node off the queue
 
 #     # Print the value of every node, starting with the given node,
 #     # in an iterative breadth first traversal
-#     def bft_print(self):
-#         pass
+    def bft_print(self, cb):
+        q = []
+        q.append(self)
+
+        while len(q):
+            current_node = q.pop(0)
+            print(current_node.value)
+            if current_node.left:
+                q.append(current_node.left)
+            if current_node.right:
+                q.append(current_node.right)
+            cb(current_node.value)
+
+# create stack
+# add root to stack
+# while stack is not empty
+    # node = pop top of stack
+    # add children of node to stack
 
 #     # Print the value of every node, starting with the given node,
 #     # in an iterative depth first traversal
-#     def dft_print(self):
-#         pass
+    def dft_print(self, cb):
+        s = []
+        s.append(self)
+
+        while len(s):
+            current_node = s.pop()
+            print(self.value)
+            if current_node.left:
+                s.append(current_node.left)
+            if current_node.right:
+                s.append(current_node.right)
+            cb(current_node.value)
 
 #     # Stretch Goals -------------------------
 #     # Note: Research may be required
